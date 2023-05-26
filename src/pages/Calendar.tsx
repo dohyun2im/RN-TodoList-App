@@ -8,7 +8,7 @@ function Calendar() {
   const markedDates = todo.reduce((acc, cur) => {
     acc[cur.date] = {
       marked: true,
-      dotColor: cur.dotColor,
+      dotColor: cur.dotColor
     };
     return acc;
   }, {});
