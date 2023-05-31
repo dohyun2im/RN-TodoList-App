@@ -3,21 +3,15 @@ import { Pressable, Text, View, StyleSheet } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface Props {
+    show: boolean;
     date: Date;
     onChange: (e:any, s:any) => void;
     formatDate: (d:any) => string;
+    showPicker: () => void;
+    handleClose: () => void;
 }
 
-function DatePicker({date, onChange, formatDate}:Props) {
-  const [show, setShow] = useState(false);
-
-  const showPicker = () => {
-    setShow(true);
-  };
-
-  const handleClose = () => {
-    setShow(false);
-  };
+function DatePicker({show, date, onChange, formatDate, showPicker, handleClose}:Props) {
 
   return (
     <>

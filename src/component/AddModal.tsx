@@ -7,14 +7,37 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from "./DatePicker";
 import TodoInput from "./TodoInput";
 
+const debounce = <F extends (...args: any[]) => any>(f: F, w: number): any => {
+  let timeout: any = null;
+  const debounced = (...args: Parameters<F>):any => {
+    if (timeout !== null) {
+      clearInterval(timeout);
+      timeout = null;
+    }
+    timeout = setTimeout(() => f(...args), w);
+  }
+  return debounced as (...args: Parameters<F>) => ReturnType<F>;
+}
+
 function AddModal() {
   const dispatch = useAppDispatch();
   const todo = useAppSelector(state => state.todo.todoList);
+  const sortedTodo = [...todo].sort((a: any, b: any)=> b.id - a.id);
   const [isModalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(new Date());
   const [text, setText] = useState('');
+  const [showDate, setShowDate] = useState(false);
+
+  const showPicker = () => {
+    setShowDate(true);
+  };
+
+  const handleClose = () => {
+    setShowDate(false);
+  };
 
   const onChangeText = (text:any) => {
+    if (showDate) handleClose
     setText(text);
   }
 
@@ -24,6 +47,7 @@ function AddModal() {
 
   const onChangeDate = (event:any, selectedDate:any) => {
     setDate(selectedDate);
+    debounce(handleClose, 3000)();
   };
 
   const formatDate = (date:Date):string => {
@@ -33,24 +57,14 @@ function AddModal() {
     return `${year}-${month}-${day}`;
   };
 
-  const getRandomColor = ():string => {
-    const letters ='0123456789ABCDEF';
-    let color = '#';
-    for(let i = 0; i < 6; i++){
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
   const handleSubmit = (): void => {
     const selectedDate = formatDate(date);
-    const filteredTodo = todo.filter((t) => t.date === selectedDate);
     const value = {
-      id: todo?.length > 0 ? todo.length : 0 , 
+      id: todo?.length > 0 ? sortedTodo[0].id + 1 : 0 , 
       date: selectedDate,
-      dotColor: filteredTodo.length > 0 ? getRandomColor() : 'orange',
+      dotColor: 'orange',
       content: text,
-      checked: false
+      stage: 0,
     };
 
     dispatch(setTodo([...todo, value]));
@@ -94,7 +108,14 @@ function AddModal() {
             </Text>
           </View>
 
-          <DatePicker date={date} onChange={onChangeDate} formatDate={formatDate} />
+          <DatePicker
+            show={showDate}
+            date={date}
+            onChange={onChangeDate} 
+            formatDate={formatDate}
+            handleClose={handleClose}
+            showPicker={showPicker}
+          />
           <TodoInput text={text} onChange={onChangeText} />
 
           <View style={styles.btnGroup}>
@@ -113,9 +134,9 @@ function AddModal() {
 }
 const styles = StyleSheet.create({
   modal: {
-    width: Dimensions.get('window').width - 120,
+    width: Dimensions.get('window').width - 60,
     height: Dimensions.get('window').height / 3,
-    margin: 60,
+    margin: 30,
   },
   btnGroup: {
     flexDirection: 'row',

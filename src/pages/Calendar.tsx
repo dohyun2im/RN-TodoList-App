@@ -27,7 +27,6 @@ function Calendar() {
         markingType={'period'}
         markedDates={markedDates}
         onDayPress={dayAlert}
-        theme={{dotStyle: {width:20, height: 20}}}
       />
     </View>
   )
