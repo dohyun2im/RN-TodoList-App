@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   btn: {
     color: 'black',
     borderWidth: 4,
-    borderColor: 'orange', 
+    borderColor: '#eee', 
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   addBtn: {
     color: 'black',
     borderWidth: 3,
-    borderColor: 'orange', 
+    borderColor: '#eee', 
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
       marginTop: 20,
   },
   headerWrapper: {
-    borderBottomColor: 'orange',
+    borderBottomColor: '#eee',
     borderBottomWidth: 3,
   }
 });

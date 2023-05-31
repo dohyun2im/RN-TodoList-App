@@ -30,7 +30,7 @@ export default function ListItem({id, content, stage, date}:Props) {
     {
         id: '1',
         text: 'To do',
-        textStyle: styles.text,
+        textStyle: stage === 1 ? styles.todo : styles.text,
         style: styles.vertical,
         unfillColor: 'white',
         fillColor: 'pink',
@@ -40,7 +40,7 @@ export default function ListItem({id, content, stage, date}:Props) {
       {
         id: '2',
         text: 'In progress',
-        textStyle: styles.text,
+        textStyle: stage === 2 ? styles.progress : styles.text,
         style: styles.vertical,
         unfillColor: 'white',
         fillColor: 'lightblue',
@@ -51,7 +51,7 @@ export default function ListItem({id, content, stage, date}:Props) {
         id: '3',
         unfillColor: 'white',
         text: 'complete',
-        textStyle: styles.text,
+        textStyle: stage === 3 ? styles.complete : styles.text,
         style: styles.vertical,
         fillColor: 'lightgreen',
         size: 20,
@@ -96,7 +96,7 @@ export default function ListItem({id, content, stage, date}:Props) {
             <View style={styles.arrow}>
                 {stage === 1 && <FontAwesome5 color='#b9ffb9' name='seedling' size={18} />}
                 {stage === 2 && <FontAwesome5 color='lightgreen' name='spa' size={15} />}
-                {stage === 3 && <FontAwesome5 color='green' name='tree' size={18} />}
+                {stage === 3 && <FontAwesome5 style={{marginLeft: 2}} color='green' name='tree' size={18} />}
             </View>
             <Text>
                 {content}
@@ -116,14 +116,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   todo: {
+    textDecorationLine: 'none',
     color: 'pink',
     fontWeight: 'bold',
   },
   progress: {
+    textDecorationLine: 'none',
     color: 'lightblue',
     fontWeight: 'bold',
   },
   complete: {
+    textDecorationLine: 'none',
     color: 'lightgreen',
     fontWeight: 'bold',
   },
