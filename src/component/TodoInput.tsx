@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     textInput: {
       padding: 5,
       minWidth: 160,
-      minHeight: 30,
       borderBottomWidth: StyleSheet.hairlineWidth
     }
 });

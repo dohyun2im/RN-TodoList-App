@@ -7,18 +7,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from "./DatePicker";
 import TodoInput from "./TodoInput";
 
-const debounce = <F extends (...args: any[]) => any>(f: F, w: number): any => {
-  let timeout: any = null;
-  const debounced = (...args: Parameters<F>):any => {
-    if (timeout !== null) {
-      clearInterval(timeout);
-      timeout = null;
-    }
-    timeout = setTimeout(() => f(...args), w);
-  }
-  return debounced as (...args: Parameters<F>) => ReturnType<F>;
-}
-
 function AddModal() {
   const dispatch = useAppDispatch();
   const todo = useAppSelector(state => state.todo.todoList);
@@ -47,7 +35,7 @@ function AddModal() {
 
   const onChangeDate = (event:any, selectedDate:any) => {
     setDate(selectedDate);
-    debounce(handleClose, 3000)();
+    handleClose();
   };
 
   const formatDate = (date:Date):string => {
@@ -64,7 +52,7 @@ function AddModal() {
       date: selectedDate,
       dotColor: 'orange',
       content: text,
-      stage: 0,
+      stage: 1,
     };
 
     dispatch(setTodo([...todo, value]));
@@ -94,9 +82,9 @@ function AddModal() {
           <FontAwesome5 style={styles.plus} name='plus' size={10} />
         </Pressable>
 
-        <Pressable style={styles.trashBtn} onPress={handleTrash}>
-          <Text>ALL</Text>
-          <FontAwesome5 style={styles.plus} name='trash-alt' size={20} />
+        <Pressable style={styles.addBtn} onPress={handleTrash}>
+          <Text>All</Text>
+          <FontAwesome5 style={styles.plus} name='trash-alt' size={10} />
         </Pressable>
       </View>
 
@@ -140,6 +128,7 @@ const styles = StyleSheet.create({
   },
   btnGroup: {
     flexDirection: 'row',
+    marginRight: 10,
   },
   btnText: {
     fontWeight: 'bold',
@@ -166,13 +155,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     margin: 5,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  trashBtn: {
-    color: 'black',
-    marginLeft: 5,
-    marginRight: 20,
     flexDirection: 'row',
     alignItems: 'center'
   },

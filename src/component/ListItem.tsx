@@ -15,7 +15,8 @@ interface Props {
 export default function ListItem({id, content, stage, date}:Props) {
   const dispatch = useAppDispatch();
   const todo = useAppSelector(state => state.todo.todoList);
-  const sortedTodo = [...todo].sort((a: any, b: any)=> new Date(b.date).valueOf() - new Date(a.date).valueOf());
+  const sortedTodo = [...todo]
+    .sort((a: any, b: any)=> new Date(b.date).valueOf() - new Date(a.date).valueOf());
   const oneRef = React.useRef<any>();
   const twoRef = React.useRef<any>();
   const threeRef = React.useRef<any>();
@@ -29,11 +30,11 @@ export default function ListItem({id, content, stage, date}:Props) {
   const staticData = [
     {
         id: '1',
-        text: 'To do',
+        text: 'To-do',
         textStyle: stage === 1 ? styles.todo : styles.text,
         style: styles.vertical,
         unfillColor: 'white',
-        fillColor: 'pink',
+        fillColor: 'gray',
         size: 20,
         ref: oneRef,
       },
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   todo: {
     textDecorationLine: 'none',
-    color: 'pink',
+    color: 'gray',
     fontWeight: 'bold',
   },
   progress: {

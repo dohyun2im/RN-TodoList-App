@@ -9,17 +9,27 @@ import store from './src/store';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import AddModal from './src/component/AddModal';
+import SplashScreen from 'react-native-splash-screen';
 
 const persistor = persistStore(store);
 const Tab = createBottomTabNavigator();
 
 function App() {
+  React.useEffect(() => {
+    setTimeout(()=>{
+			SplashScreen.hide()
+		}, 2000)
+  },[])
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarActiveTintColor: 'gray',
+            }}
+          >
             <Tab.Screen
               name='TodoList'
               component={TodoList}
